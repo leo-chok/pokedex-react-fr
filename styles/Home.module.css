@@ -1,0 +1,49 @@
+@import url("https://fonts.cdnfonts.com/css/pokemon-solid");
+@import url("https://fonts.cdnfonts.com/css/pokemon-hollow");
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  color: white;
+  font-family: "Pokemon Solid", sans-serif;
+  font-size: 4em;
+  letter-spacing: 10px;
+  text-shadow: 5px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
+    -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.pokemonContainer {
+  background-color: "#fceaff";
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-between;
+  justify-content: center;
+  margin: 0;
+  margin-top: 2em;
+  max-width: 1200px;
+}
+
+.next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: larger;
+  background-color: rgba(247, 245, 245, 1);
+  border-radius: 2em;
+  padding: 2em;
+  width: 150px;
+  height: 50px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.next:hover {
+  background-color: rgb(206, 14, 14);
+}
