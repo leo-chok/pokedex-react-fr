@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import Pokemon from "./Pokemon";
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
+import { useDispatch, useSelector } from "react-redux";
+import { addPokemonsToStore } from "../reducers/pokemons";
 
 function Home() {
   const [startIndex, setStartIndex] = useState(1);
   const [pokemonsNumber, setPokemonsNumber] = useState(15);
-  const [pokemonsData, setPokemonsData] = useState([]);
+  // const [pokemonsData, setPokemonsData] = useState([]);
+  const dispatch = useDispatch();
+  const listPokemons = useSelector((state) => state.pokemons.value);
 
   const fetchPokemons = async () => {
-    const newPokemons = [];
+    // const newPokemons = [];
 
     for (let i = startIndex; i <= pokemonsNumber; i++) {
       const response = await fetch(`https://tyradex.app/api/v1/pokemon/${i}`);
@@ -21,13 +25,14 @@ function Home() {
         type: data.types[0].name,
         height: data.height,
         weight: data.weight,
-        stats: data.stats
+        stats: data.stats,
       };
 
-      newPokemons.push(newPokemon);
+      dispatch(addPokemonsToStore(newPokemon));
+      // newPokemons.push(newPokemon);
     }
 
-    setPokemonsData([...pokemonsData, ...newPokemons]);
+    // setPokemonsData([...pokemonsData, ...newPokemons]);
     setStartIndex(startIndex + pokemonsNumber);
     setPokemonsNumber(pokemonsNumber + pokemonsNumber);
   };
@@ -36,12 +41,21 @@ function Home() {
     fetchPokemons();
   }, []);
 
-  const pokemons = pokemonsData.map((data) => {
-    return <Pokemon id={data.id} name={data.name} type={data.type} height={data.height} weight={data.weight} stats={data.stats} />;
+  const pokemons = listPokemons.map((data) => {
+    return (
+      <Pokemon
+        id={data.id}
+        name={data.name}
+        type={data.type}
+        height={data.height}
+        weight={data.weight}
+        stats={data.stats}
+      />
+    );
   });
 
   return (
-    <>
+    <div className={styles.main}>
       <Head>
         <title>Pokedex</title>
         <link rel="icon" href="/favicon.ico" />
@@ -52,7 +66,6 @@ function Home() {
         ></meta>
       </Head>
       <div className={styles.container}>
-        <h1 className={styles.title}>Pokedex</h1>
         <div className={styles.pokemonContainer}>{pokemons}</div>
         <button
           type="button"
@@ -63,7 +76,7 @@ function Home() {
           NEXT
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

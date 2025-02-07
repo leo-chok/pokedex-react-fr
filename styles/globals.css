@@ -3,9 +3,10 @@
 body {
 	background: #000000;
 	background: -webkit-linear-gradient(to right, #D4D3DD, #EFEFBB);
-	background: linear-gradient(to right, #e73333, #540202);
+	background: linear-gradient(to right, #e73333, #890a0a);
 	font-family: 'Lato';
 	margin: 0;
+	overflow: hidden;
 }
 
 

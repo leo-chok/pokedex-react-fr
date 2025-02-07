@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.1",
     "next": "12.1.6",
     "react": "18.1.0",
+    "react-animated-3d-card": "^1.0.2",
+    "react-card-flip": "^1.2.3",
     "react-dom": "18.1.0",
-    "react-animated-3d-card": "^1.0.2"
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

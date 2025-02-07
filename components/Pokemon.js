@@ -1,8 +1,11 @@
 import styles from "../styles/Pokemon.module.css";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import Card3d from "react-animated-3d-card";
+import ReactCardFlip from "react-card-flip";
 
 function Pokemon(props) {
+  const [isFlipped, setIsFlipped] = useState(false);
   let pokemonTypeStyle = {};
   switch (props.type) {
     case "Normal":
@@ -49,60 +52,82 @@ function Pokemon(props) {
       break;
   }
 
+  function handleClick() {
+    setIsFlipped(!isFlipped);
+  }
+
   return (
     <div
       style={{
         margin: "1em",
       }}
     >
-      <Card3d
-        style={{
-          background:
-            "linear-gradient(to right,rgb(238, 238, 238),rgb(255, 255, 255),rgb(240, 240, 240))",
-          display: "flex",
-          "flex-direction": "column",
-          "align-items": "center",
-          width: "250px",
-          height: "320px",
-          padding: "0 0 3em 0",
-          margin: "0",
-          border: "1px solid rgba(255, 255, 255, 0.6)",
-          cursor: "pointer",
-          "border-radius": "1em",
-          overflow: "hidden",
-        }}
-        onClick={() => console.log("Hola")}
-      >
-        <div className={styles.pokemon} style={pokemonTypeStyle}>
-          <div className={styles.imgContainer}>
-            <Image
-              src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${props.id}/regular.png`}
-              width={100}
-              height={100}
-              alt={"pokemon"}
-            />
-          </div>
-        </div>
-        <div className={styles.info}>
-          <h3 className={styles.name}>{props.name}</h3>
-          <span className={styles.description}>
-            <div className={styles.left}>
-              <span>Type: </span>
-              <span>Taille: </span>
-              <span>Poids: </span>
-              <span>Atk: </span>
-              <span>Def: </span>
+      {" "}
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+        <Card3d
+          style={{
+            background:
+              "linear-gradient(to right,rgb(238, 238, 238),rgb(255, 255, 255),rgb(240, 240, 240))",
+            display: "flex",
+            "flex-direction": "column",
+            "align-items": "center",
+            width: "260px",
+            height: "360px",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
+            cursor: "pointer",
+            "border-radius": "1em",
+            overflow: "hidden",
+          }}
+          onClick={() => handleClick()}
+        >
+          <div className={styles.pokemon} style={pokemonTypeStyle}>
+            <div className={styles.imgContainer}>
+              <Image
+                src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${props.id}/regular.png`}
+                width={100}
+                height={100}
+                alt={"pokemon"}
+              />
             </div>
-			<div className={styles.right}>
-            <span>{props.type}</span>
-            <span>{props.height}</span>
-            <span>{props.weight}</span>
-            <span>{props.stats.atk}</span>
-            <span>{props.stats.def}</span>
-			</div>
-          </span>
-        </div>
-      </Card3d>
+          </div>
+          <div className={styles.info}>
+            <h3 className={styles.name}>{props.name}</h3>
+            <span className={styles.description}>
+              <div className={styles.left}>
+                <span>Type: </span>
+                <span>Taille: </span>
+                <span>Poids: </span>
+                <span>Atk: </span>
+                <span>Def: </span>
+              </div>
+              <div className={styles.right}>
+                <span>{props.type}</span>
+                <span>{props.height}</span>
+                <span>{props.weight}</span>
+                <span>{props.stats.atk}</span>
+                <span>{props.stats.def}</span>
+              </div>
+            </span>
+          </div>
+        </Card3d>
+
+        <Card3d
+          style={{
+            backgroundImage:
+              "url('https://s3.pokeos.com/pokeos-uploads/tcg/eng/back.webp')",
+            backgroundSize: 'cover',
+            
+            width: "260px",
+            height: "360px",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
+            cursor: "pointer",
+            "border-radius": "1em",
+            overflow: "hidden",
+          }}
+          onClick={() => handleClick()}
+        >
+        </Card3d>
+      </ReactCardFlip>
     </div>
   );
 }
