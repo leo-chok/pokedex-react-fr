@@ -4,19 +4,19 @@ import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { addPokemonsToStore } from "../reducers/pokemons";
+import { addfavoritesToStore } from "../reducers/favorites";
 
 function Home() {
   const [startIndex, setStartIndex] = useState(1);
-  const [pokemonsNumber, setPokemonsNumber] = useState(15);
-  // const [pokemonsData, setPokemonsData] = useState([]);
+  const [pokemonsNumber, setPokemonsNumber] = useState(3);
   const dispatch = useDispatch();
   const listPokemons = useSelector((state) => state.pokemons.value);
+  const favoritesPokemons = useSelector((state) => state.favorites.value);
 
   const fetchPokemons = async () => {
-    // const newPokemons = [];
-
     for (let i = startIndex; i <= pokemonsNumber; i++) {
-      const response = await fetch(`https://tyradex.app/api/v1/pokemon/${i}`);
+      const randomId = Math.floor(Math.random() * (151 - 1 + 1) + 1)
+      const response = await fetch(`https://tyradex.app/api/v1/pokemon/${randomId}`);
       const data = await response.json();
 
       const newPokemon = {
@@ -29,10 +29,8 @@ function Home() {
       };
 
       dispatch(addPokemonsToStore(newPokemon));
-      // newPokemons.push(newPokemon);
     }
 
-    // setPokemonsData([...pokemonsData, ...newPokemons]);
     setStartIndex(startIndex + pokemonsNumber);
     setPokemonsNumber(pokemonsNumber + pokemonsNumber);
   };
@@ -41,9 +39,11 @@ function Home() {
     fetchPokemons();
   }, []);
 
-  const pokemons = listPokemons.map((data) => {
+  // Créations des cartes sur la page Pokemons
+  const pokemons = listPokemons.map((data, i) => {
     return (
       <Pokemon
+        key={i}
         id={data.id}
         name={data.name}
         type={data.type}

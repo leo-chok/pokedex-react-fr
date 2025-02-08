@@ -1,12 +1,19 @@
 import styles from "../styles/Pokemon.module.css";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
+import { addFavoritesToStore } from "../reducers/favorites";
+import { useDispatch, useSelector } from "react-redux";
 import Card3d from "react-animated-3d-card";
 import ReactCardFlip from "react-card-flip";
 
 function Pokemon(props) {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(true);
+  const dispatch = useDispatch();
+  const favoritesArray = useSelector((state) => state.favorites.value);
   let pokemonTypeStyle = {};
+
   switch (props.type) {
     case "Normal":
       pokemonTypeStyle.backgroundColor = "#aab09f ";
@@ -53,8 +60,22 @@ function Pokemon(props) {
   }
 
   function handleClick() {
+    console.log('Je suis clické');
     setIsFlipped(!isFlipped);
   }
+
+   function handleClickFavorite() {
+    console.log('Je suis ajouté aux favoris');
+    dispatch(addFavoritesToStore(props))
+  }
+
+const isFavorite = favoritesArray.find((e) => e.name === props.name);
+
+  let style = { color: "#000000 " };
+  if (isFavorite) {
+    style = { color: "#E9BE59 " };
+  }
+
 
   return (
     <div
@@ -62,27 +83,26 @@ function Pokemon(props) {
         margin: "1em",
       }}
     >
-      {" "}
       <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
         <Card3d
           style={{
             background:
-              "linear-gradient(to right,rgb(238, 238, 238),rgb(255, 255, 255),rgb(240, 240, 240))",
+              "linear-gradient(to right,rgb(241, 237, 230),rgb(247, 246, 242),rgb(248, 245, 236))",
             display: "flex",
-            "flex-direction": "column",
-            "align-items": "center",
-            width: "260px",
-            height: "360px",
-            border: "1px solid rgba(255, 255, 255, 0.6)",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "304px",
+            height: "420px",
+            border: "1px solid rgba(137, 133, 126, 0.79)",
             cursor: "pointer",
-            "border-radius": "1em",
+            borderRadius: "1em",
             overflow: "hidden",
-          }}
-          onClick={() => handleClick()}
+          }} onClick={() => handleClick()}
         >
           <div className={styles.pokemon} style={pokemonTypeStyle}>
+            
             <div className={styles.imgContainer}>
-              <Image
+              <Image 
                 src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${props.id}/regular.png`}
                 width={100}
                 height={100}
@@ -91,6 +111,9 @@ function Pokemon(props) {
             </div>
           </div>
           <div className={styles.info}>
+          <div className={styles.star} onClick={() => handleClickFavorite()}>
+              <FontAwesomeIcon icon={faStar} style={style}/>
+            </div>
             <h3 className={styles.name}>{props.name}</h3>
             <span className={styles.description}>
               <div className={styles.left}>
@@ -115,18 +138,16 @@ function Pokemon(props) {
           style={{
             backgroundImage:
               "url('https://s3.pokeos.com/pokeos-uploads/tcg/eng/back.webp')",
-            backgroundSize: 'cover',
-            
-            width: "260px",
-            height: "360px",
+            backgroundSize: "cover",
+            width: "304px",
+            height: "420px",
             border: "1px solid rgba(255, 255, 255, 0.6)",
             cursor: "pointer",
-            "border-radius": "1em",
+            borderRadius: "1em",
             overflow: "hidden",
           }}
           onClick={() => handleClick()}
-        >
-        </Card3d>
+        ></Card3d>
       </ReactCardFlip>
     </div>
   );

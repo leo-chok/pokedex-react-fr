@@ -2,12 +2,13 @@ import "../styles/globals.css";
 import Head from "next/head";
 import Menu from "../components/Menu";
 import pokemons from '../reducers/pokemons'
+import favorites from '../reducers/favorites'
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
-  reducer: {pokemons},
+  reducer: {pokemons, favorites},
 });
 
 function App({ Component, pageProps }) {
